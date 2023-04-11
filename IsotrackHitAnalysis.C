@@ -18,6 +18,7 @@
 #include "modules/HitEnergyAndBackgroundModule.h"
 #include "modules/RadiusSizeModule.h"
 #include "modules/EnergyRadiusOptimizationModule.h"
+#include "modules/IhcalBacksplashModule.h"
 
 
 void IsotrackHitAnalysis::Loop(){
@@ -31,14 +32,16 @@ void IsotrackHitAnalysis::Loop(){
 
     //initEOverPModule(); // calculate E/p from towers and from g4hits 
     initChecksModule(); // check including tower number, track rate, mip/shower classification rates
-    //initRadiusSizeModule(); // calculate the mip/shower size in emcal from g4hits
+    initRadiusSizeModule(); // calculate the mip/shower size in emcal from g4hits
     //initEnergyRadiusOptimizationModule(); // calculate mip/shower purity and efficiency in emcal from towers
     //initHitEnergyAndBackgroundModule(); // calculate signal and background energy deposition from g4hits 
+    //initIhcalBacksplashModule(); // calculate the backsplash in the emcal from classified ihcal showers 
+    if (TRACKING_LOCATION) initMipShowerClassifier(); // output the location of tracking showers
 
     ///////////////////////////////////////////////////
 
     for(Long64_t jentry=0;jentry<nentries;jentry++) {
-        //if (jentry > 50000) continue;
+        if (jentry > 20000) continue;
         LoadTree(jentry);
         GetEntry(jentry);
         processEvent();
@@ -90,9 +93,11 @@ void IsotrackHitAnalysis::processTrack(int id){
 
     //eOverPModule(id, cemcClusters, ihcalClusters, ohcalClusters);
     checksModule(id, cemcClusters, ihcalClusters, ohcalClusters);
-    //radiusSizeModule(id);
+    radiusSizeModule(id);
     //energyRadiusOptimizationModule(id, cemcClusters, totalIhcalEnergy, totalOhcalEnergy);
     //hitEnergyAndBackgroundModule(id, cemcClusters, ihcalClusters, ohcalClusters);
+    //ihcalBacksplashModule(id);
+    //mipShowerClassifier(id);
     
 }
 

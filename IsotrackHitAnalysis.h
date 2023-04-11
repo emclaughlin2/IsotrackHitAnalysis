@@ -63,6 +63,8 @@ class IsotrackHitAnalysis {
         float CEMC_MIP_ENERGY; // GeV
         float IHCAL_MIP_ENERGY; // GeV
 
+        bool TRACKING_LOCATION;
+
         /////////////
         // TChains //
         /////////////
@@ -204,16 +206,20 @@ class IsotrackHitAnalysis {
         ////////////////
 
         // RadiusSizeModule
-        TH2F* eta_sigma;
-        TH2F* phi_sigma;
-        TH1F* emcal_eta;
-        TH1F* emcal_phi;
-        TH2F* pt_eta_sigma;
-        TH2F* pt_phi_sigma;
+        TH1F* emcal_eta[6];
+        TH1F* emcal_phi[6];
+        TH1F* emcal_eta_sigma[6];
+        TH1F* emcal_phi_sigma[6];
+        TH2F* pt_eta_sigma[6];
+        TH2F* pt_phi_sigma[6];
         TH2F* pt_avg_eta;
         TH2F* pt_avg_phi;
         TH2F* pt_eta_dist;
         TH2F* pt_phi_dist;
+        TH1F* ohcal_eta_sigma_total;
+        TH1F* ohcal_phi_sigma_total;
+        TH1F* ohcal_eta_sigma[6];
+        TH1F* ohcal_phi_sigma[6];
         // EnergyRadiusOptimzationModule
         TEfficiency* energy_radius_efficiency;
         TEfficiency* energy_radius_purity;
@@ -239,6 +245,15 @@ class IsotrackHitAnalysis {
         TH2F* ep_towers;
         TH2F* ep_g4hits;
         TH2F* ep_g4hits_full;
+        // MipShowerClassifierSelection
+        TH1F* vertex_r;
+        TH1F* vertex_xyz;
+        TH1F* vertex_eta;
+        TH1F* vertex_phi;
+        // IhcalBacksplashModule
+        TH1F* bs_e;
+        TH2F* bs_e_vs_sigma_eta;
+        TH2F* bs_e_vs_sigma_phi;
         
         /////////////////////////////
         // Random number generator //
@@ -264,6 +279,7 @@ class IsotrackHitAnalysis {
         bool basicEventSelection();
         bool basicTrackSelection(int id);
         bool truthIsolatedTrackSelection(int id);
+        void initMipShowerClassifier();
         int mipShowerClassifier(int id);
 
         MatchedClusterContainer getMatchedSimTowers(int id, caloType type, float dRThreshold);
@@ -283,6 +299,9 @@ class IsotrackHitAnalysis {
 
         void initHitEnergyAndBackgroundModule();
         void hitEnergyAndBackgroundModule(int id, MatchedClusterContainer cemcClusters, MatchedClusterContainer ihcalClusters, MatchedClusterContainer ohcalClusters);
+
+        void initIhcalBacksplashModule();
+        void ihcalBacksplashModule(int id);
         
 };
 
@@ -310,6 +329,7 @@ IsotrackHitAnalysis::IsotrackHitAnalysis(std::string inputFilename, std::string 
   IHCAL_MIP_ENERGY(ihcalMipEnergy)
 {
   OUTPUT_FILENAME = outputFilename;
+  TRACKING_LOCATION = false;
 
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.

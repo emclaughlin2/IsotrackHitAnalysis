@@ -1,6 +1,5 @@
 #pragma once
 #include "../IsotrackHitAnalysis.h"
-#include "../selections/MipShowerClassifier.h"
 #include <TVector3.h>
 #include <string>
 
