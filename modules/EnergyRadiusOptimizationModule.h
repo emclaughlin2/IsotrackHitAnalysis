@@ -3,10 +3,6 @@
 #include <TVector3.h>
 #include <string>
 
-// Things that I want to know from the g4hits:
-//   When passing my emcal energy cut, what is the e/p distribution in the ihcal+ohcal?
-//   When passing my emcal energy cut, what is the e/p distribution in a deltaR < 0.2 cone in the ihcal+ohcal
-
 float IsotrackHitAnalysis::energyFromG4hits(int id, float dr) {
   TVector3 v1, v2;
   float e_emcal_r1 = 0;
