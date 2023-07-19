@@ -19,7 +19,8 @@
 #include "modules/RadiusSizeModule.h"
 #include "modules/EnergyRadiusOptimizationModule.h"
 #include "modules/IhcalBacksplashModule.h"
-
+#include "modules/IhcalMipModule.h"
+#include "modules/DDIhcalMipModule.h"
 
 void IsotrackHitAnalysis::Loop(){
     // Get the number of entries in the TChain
@@ -30,9 +31,11 @@ void IsotrackHitAnalysis::Loop(){
 
     TFile* outputFile = new TFile(OUTPUT_FILENAME.c_str(), "RECREATE");
 
+    initDDIhcalMipModule();
     //initEOverPModule(); // calculate E/p from towers and from g4hits 
     initChecksModule(); // check including tower number, track rate, mip/shower classification rates
-    initRadiusSizeModule(); // calculate the mip/shower size in emcal from g4hits
+    //initIhcalMipModule(); // find ihcal mip from data driven methods 
+    //initRadiusSizeModule(); // calculate the mip/shower size in emcal from g4hits
     //initEnergyRadiusOptimizationModule(); // calculate mip/shower purity and efficiency in emcal from towers
     //initHitEnergyAndBackgroundModule(); // calculate signal and background energy deposition from g4hits 
     //initIhcalBacksplashModule(); // calculate the backsplash in the emcal from classified ihcal showers 
@@ -41,7 +44,7 @@ void IsotrackHitAnalysis::Loop(){
     ///////////////////////////////////////////////////
 
     for(Long64_t jentry=0;jentry<nentries;jentry++) {
-        if (jentry > 20000) continue;
+        //if (jentry > 20000) continue;
         LoadTree(jentry);
         GetEntry(jentry);
         processEvent();
@@ -58,6 +61,10 @@ void IsotrackHitAnalysis::Loop(){
 void IsotrackHitAnalysis::processEvent(){
     
     if (basicEventSelection()) {
+
+        ddIhcalMipModule();
+
+        /*
         for (int i = 0; i < n_tracks; i++){
             if (basicTrackSelection(i)){
                 assert(tr_cemc_eta[i] > -98 && tr_cemc_phi[i] > -98 && fabs(tr_cemc_eta[i]) <= 1.0);
@@ -66,7 +73,10 @@ void IsotrackHitAnalysis::processEvent(){
                     processTrack(i);
                 }  
             }
-        }
+        }*/
+
+
+
     } 
 }
 
@@ -93,7 +103,8 @@ void IsotrackHitAnalysis::processTrack(int id){
 
     //eOverPModule(id, cemcClusters, ihcalClusters, ohcalClusters);
     checksModule(id, cemcClusters, ihcalClusters, ohcalClusters);
-    radiusSizeModule(id);
+    //ihcalMipModule(id, cemcClusters, ihcalClusters, ohcalClusters);
+    //radiusSizeModule(id);
     //energyRadiusOptimizationModule(id, cemcClusters, totalIhcalEnergy, totalOhcalEnergy);
     //hitEnergyAndBackgroundModule(id, cemcClusters, ihcalClusters, ohcalClusters);
     //ihcalBacksplashModule(id);

@@ -254,6 +254,43 @@ class IsotrackHitAnalysis {
         TH1F* bs_e;
         TH2F* bs_e_vs_sigma_eta;
         TH2F* bs_e_vs_sigma_phi;
+        // IhcalMipModule
+        /*
+        TH1F* E2_ohcal[2];
+        TH1F* E2_emcal[2];
+        TH1F* E2_ihcal[2];
+        TH1F* E2_all[2];
+        TH1F* buffer3_ohcal[2];
+        TH1F* buffer4_ohcal[2];
+        TH1F* buffer3_mip_ohcal[2];
+        TH1F* buffer4_mip_ohcal[2];
+        TH1F* buffer3_all[2];
+        TH1F* buffer4_all[2];
+        TH1F* buffer3_mip_all[2];
+        TH1F* buffer4_mip_all[2];
+        TH1F* E1_emcal[2];
+        TH1F* E1_ihcal[2];
+        TH1F* buffer2_emcal[2];
+        TH1F* buffer2_ihcal[2];
+        TH1F* buffer2_mip_emcal[2];
+        TH1F* buffer2_mip_ihcal[2];
+        */
+        // DDIhcalMipModule
+        TH1F* emcal_raw;
+        TH1F* emcal_raw_mip;
+        TH1F* ihcal_raw_mip;
+        TH1F* ihcal_raw_mip_0;
+        TH1F* emcal_raw_mip_0;
+        TH1F* ihcal_raw_mip_1;
+        TH1F* emcal_raw_mip_1;
+        TH1F* ihcal_raw_mip_2;
+        TH1F* emcal_raw_mip_2;
+        TH1F* ihcal_mip_mip;
+        TH1F* emcal_mip_mip;
+        TH1F* ihcal_mip_shower;
+        TH1F* emcal_mip_shower;
+        TH1F* ihcal_mip_other;
+        TH1F* emcal_mip_other;
         
         /////////////////////////////
         // Random number generator //
@@ -302,6 +339,12 @@ class IsotrackHitAnalysis {
 
         void initIhcalBacksplashModule();
         void ihcalBacksplashModule(int id);
+
+        void initIhcalMipModule();
+        void ihcalMipModule(int id, MatchedClusterContainer cemcClusters, MatchedClusterContainer ihcalClusters, MatchedClusterContainer ohcalClusters);
+
+        void initDDIhcalMipModule();
+        void ddIhcalMipModule();
         
 };
 

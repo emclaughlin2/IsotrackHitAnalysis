@@ -7,12 +7,12 @@ bool IsotrackHitAnalysis::basicTrackSelection(int id){
     
     // Primary vertex selection condition
     // d0 < 0.15, z0 < 0.15
-    float d0 = sqrt((m_tr_x[id]-m_vx[0])*(m_tr_x[id]-m_vx[0])+(m_tr_y[id]-m_vy[0])*(m_tr_y[id]-m_vy[0]));
-    float z0 = fabs(m_tr_z[id]-m_vz[0]);
+    //float d0 = sqrt((tr_x[id]-vertex_x[0])*(tr_x[id]-vertex_x[0])+(tr_y[id]-vertex_y[0])*(tr_y[id]-vertex_y[0]));
+    //float z0 = fabs(tr_z[id]-vertex_z[0]);
 
-    if(!USE_PARTICLE_GUN && !(d0 < D0_CUT && z0 < Z0_CUT)){
-        return false;
-    }
+    //if(!USE_PARTICLE_GUN && !(d0 < D0_CUT && z0 < Z0_CUT)){
+    //    return false;
+    //}
 
     if (tr_cemc_eta[id] < -998 || tr_cemc_phi[id] < -998) {
         return false;

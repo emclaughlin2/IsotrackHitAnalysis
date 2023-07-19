@@ -8,7 +8,7 @@ int main(int argc, char **argv){
     
     // options
     int useTowerInfo = true;
-    int useTruthInfo = true;
+    int useTruthInfo = false;
     int useCentrality = true;
     int useParticleGun = false;
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv){
         ("file", po::value<std::string>(&filename), "path to txt file containing list of ROOT files (required)")
         ("out_file", po::value<std::string>(&output_filename), "filename for output of analysis, default = test_output.root")
         ("use_towers", po::value<int>(&useTowerInfo), "use towers instead of clusters, default = 1")
-        ("use_truth", po::value<int>(&useTruthInfo), "use truth information, default = 1")
+        ("use_truth", po::value<int>(&useTruthInfo), "use truth information, default = 0")
         ("use_centrality", po::value<int>(&useCentrality), "use centrality information, default = 1")
         ("use_particle_gun", po::value<int>(&useParticleGun),"analyze a particle gun run, default = 0")
         ("centrality", po::value<float>(&centrality), "centrality cut, default = 20%")
